@@ -951,7 +951,7 @@
     </request>
    </interface>
 
-  <interface name="wl_seat" version="1">
+  <interface name="wl_seat" version="2">
     <description summary="seat">
       A group of keyboards, pointer (mice, for example) and touch
       devices . This object is published as a global during start up,
@@ -967,8 +967,8 @@
       <entry name="pointer" value="1" summary="wl_pointer"/>
       <entry name="keyboard" value="2" summary="wl_keyboard"/>
       <entry name="touch" value="4" summary="wl_touch"/>
+      <entry name="pointer_lock" value="8" summary="lock pointer"/>
     </enum>
-
 
     <event name="capabilities">
       <description summary="seat capabilities changed">
@@ -1001,6 +1001,39 @@
 	for this seat.
       </description>
       <arg name="id" type="new_id" interface="wl_touch"/>
+    </request>
+
+    <request name="lock_pointer" since="2">
+      <description summary="return pointer object">
+	The lock_pointer request lets the client disable pointer
+	motion and request relative motion events.
+
+	This request initializes the pointer lock and activates it in
+	case the surface is active.  If the surface isn't active when
+	the server receives the request, the compositor will activate
+	the pointer_lock when the surface is eventually activated.
+
+	The lock_pointer request will create a new wl_pointer object.
+	When the pointer_lock is activated, the regular wl_seat
+	pointer send out a leave event and the pointer_lock wl_pointer
+	object will receive an enter event.  The enter event will
+	indicate the position of the pointer at the time of
+	activation.  While the pointer lock is active, the wl_pointer
+	object will send out motion events, but the coordinates
+	correspond to relative pointer motion.
+
+	The compositor can break the pointer_lock at any time, for
+	example when switching to a different application (eg,
+	alt-tab), if a notification pops up or when the screensaver
+	starts.  When this happens the pointer lock wl_pointer will
+	send a leave event.  When or if the server activates the
+	surface again, the client will receive an enter event again.
+
+	The client can break the pointer lock at any time by releasing
+	the pointer lock wl_pointer using the wl_pointer.release request.
+      </description>
+      <arg name="id" type="new_id" interface="wl_pointer"/>
+      <arg name="surface" type="object" interface="wl_surface"/>
     </request>
   </interface>
 
