@@ -1041,6 +1041,10 @@
       <arg name="hotspot_y" type="int"/>
     </request>
 
+    <request name="release" type="destructor">
+      <description summary="release the pointer object"/>
+    </request>
+
     <event name="enter">
       <description summary="enter event">
 	Notification that this seat's pointer is focused on a certain
@@ -1130,6 +1134,10 @@
     <description summary="keyboard input device">
     </description>
 
+    <request name="release" type="destructor">
+      <description summary="release the keyboard object"/>
+    </request>
+
     <enum name="keymap_format">
       <description summary="keyboard mapping format">
         This enum specifies the format of the keymap provided to the client
@@ -1195,6 +1203,10 @@
   <interface name="wl_touch" version="1">
     <description summary="touch screen input device">
     </description>
+
+    <request name="release" type="destructor">
+      <description summary="release the touch object"/>
+    </request>
 
     <event name="down">
       <arg name="serial" type="uint"/>
