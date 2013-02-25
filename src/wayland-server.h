@@ -219,6 +219,7 @@ struct wl_pointer_grab {
 	struct wl_pointer *pointer;
 	struct wl_surface *focus;
 	wl_fixed_t x, y;
+	int relative;
 };
 
 struct wl_keyboard_grab;

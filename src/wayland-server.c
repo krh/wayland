@@ -929,6 +929,7 @@ wl_pointer_start_grab(struct wl_pointer *pointer, struct wl_pointer_grab *grab)
 	pointer->grab = grab;
 	interface = pointer->grab->interface;
 	grab->pointer = pointer;
+	grab->relative = 0;
 
 	if (pointer->current)
 		interface->focus(pointer->grab, pointer->current,
